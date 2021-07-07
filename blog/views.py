@@ -1,11 +1,16 @@
+from django.core import paginator
 from django.shortcuts import render, redirect, get_object_or_404 #redirect는 원래 페이지로 돌아감
 from django.utils import timezone
+from django.core.paginator import Paginator
 from .models import Blog
 from .forms import BlogForm
 
 # Create your views here.
 def home(request):
     blogs = Blog.objects.all()
+    paginator = Paginator(blogs, 3)
+    page = request.GET.get('page')
+    blogs = paginator.get_page(page)
     return render(request, 'home.html', {'blogs' : blogs})
 def detail(request, id):
     blog = get_object_or_404(Blog, pk=id) #pk는 primary key, 데이터베이스 식별자(id)
@@ -36,3 +41,6 @@ def delete(request, id):
     delete_blog = Blog.objects.get(id=id)
     delete_blog.delete()
     return redirect('home')
+def mypage(request):
+    form = BlogForm()
+    return render(request, 'mypage.html', {'form':form})

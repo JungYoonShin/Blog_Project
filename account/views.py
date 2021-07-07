@@ -1,6 +1,7 @@
-from django.shortcuts import redirect, render
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm #로그인, 회원가입 폼
-from django.contrib.auth import authenticate, login, logout
+from django.shortcuts import render, redirect
+from django.contrib.auth.forms import AuthenticationForm #로그인 폼
+from django.contrib.auth import authenticate,login,logout
+from .forms import RegisterForm
 # Create your views here.
 
 def login_view(request):
@@ -22,12 +23,12 @@ def logout_view(request):
     return redirect('home')
 
 def register_view(request):
-    if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+    if request.method == "POST":
+        form = RegisterForm(request.POST)
         if form.is_valid():
             user = form.save()
             login(request, user)
         return redirect('home')
     else:
-        form = UserCreationForm()
+        form = RegisterForm()
         return render(request, 'signup.html', {'form' : form})
