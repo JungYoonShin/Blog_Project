@@ -1,21 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BLOG</title>
-    <style>
-        body{
-            text-align: center;
-        }
-    </style>
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block content %}
+    {% if user.is_authenticated %}
+    {{user.username}}
+    {% endif %}
     <h1>Blog Project</h1>
-    <div>
-        <a href="{%url 'new'%}">write blog</a>
-    </div>
     <div class="container">
     {% for blog in blogs%}
         <div>
@@ -26,5 +15,4 @@
         </div>
     {% endfor %}
     </div>
-</body>
-</html>
+{% endblock %}
